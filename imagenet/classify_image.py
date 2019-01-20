@@ -119,11 +119,16 @@ class NodeLookup(object):
 
 def say(texttosay):
 
+
+  f = open("/tmp/texttosay.txt", "w")
+  f.write(texttosay)
+  f.close()
+
+
   # saycommand = "/usr/bin/say"
   saycommand = "/usr/bin/festival"
-  
-  subprocess.run([saycommand, texttosay])
-  
+  subprocess.run([saycommand, "--tts", "/tmp/texttosay.txt"])
+
 
 
 def howlikely(tempprob):
@@ -232,6 +237,8 @@ def maybe_download_and_extract():
 
 def main(_):
   maybe_download_and_extract()
+
+
 
   say("Lame Camera Initalizing.  Let's have a look at that, shall we?")
   
