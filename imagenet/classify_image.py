@@ -117,6 +117,14 @@ class NodeLookup(object):
       return ''
     return self.node_lookup[node_id]
 
+def say(texttosay):
+
+  # saycommand = "/usr/bin/say"
+  saycommand = "/usr/bin/festival"
+  
+  subprocess.run([saycommand, texttosay])
+  
+
 
 def howlikely(tempprob):
   # ANDY function to put probablity into english
@@ -191,7 +199,7 @@ def run_inference_on_image(image):
     #ANDY Print just the top match
     print("%s %s" % (howlikely(predictions[top_k[0]]), node_lookup.id_to_string(top_k[0]).split(',')[0]))
     tempsay = howlikely(predictions[top_k[0]]) + " " + node_lookup.id_to_string(top_k[0]).split(',')[0]
-    subprocess.run(["/usr/bin/say", tempsay])
+    say(tempsay)
     
     for node_id in top_k:
       human_string = node_lookup.id_to_string(node_id)
@@ -225,7 +233,7 @@ def maybe_download_and_extract():
 def main(_):
   maybe_download_and_extract()
 
-  subprocess.run(["/usr/bin/say", "Let's have a look at that."])
+  say("Lame Camera Initalizing.  Let's have a look at that, shall we?")
   
   image = (FLAGS.image_file if FLAGS.image_file else
            os.path.join(FLAGS.model_dir, 'cropped_panda.jpg'))
