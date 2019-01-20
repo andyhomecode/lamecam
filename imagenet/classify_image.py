@@ -41,6 +41,7 @@ import re
 import sys
 import tarfile
 import subprocess
+import platform
 
 import numpy as np
 from six.moves import urllib
@@ -120,14 +121,23 @@ class NodeLookup(object):
 def say(texttosay):
 
 
-  f = open("/tmp/texttosay.txt", "w")
-  f.write(texttosay)
-  f.close()
 
 
-  # saycommand = "/usr/bin/say"
-  saycommand = "/usr/bin/festival"
-  subprocess.run([saycommand, "--tts", "/tmp/texttosay.txt"])
+
+  if platform.system() == "Linux":
+
+    f = open("/tmp/texttosay.txt", "w")
+    f.write(texttosay)
+    f.close()
+
+    # saycommand = "/usr/bin/say"
+    saycommand = "/usr/bin/festival"
+    subprocess.run([saycommand, "--tts", "/tmp/texttosay.txt"])
+
+  else:
+    # saycommand = "/usr/bin/say"
+    saycommand = "/usr/bin/say"
+    subprocess.run([saycommand, texttosay])
 
 
 
@@ -240,7 +250,7 @@ def main(_):
 
 
 
-  say("Lame Camera Initalizing.  Let's have a look at that, shall we?")
+  say("Lame Cam Startup")
   
   image = (FLAGS.image_file if FLAGS.image_file else
            os.path.join(FLAGS.model_dir, 'cropped_panda.jpg'))
